@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "computer-use-agent"
+version = "0.1.0"
+description = "Browser agent that books, fills and extracts on live sites — with human takeover."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Lionel Sim", email = "lionel@theaicapitol.com"}]
+keywords = ["browser-agent", "computer-use", "automation", "playwright"]
+classifiers = ["Programming Language :: Python :: 3", "License :: OSI Approved :: MIT License"]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+playwright = ["playwright>=1.44"]
+
+[project.scripts]
+computer-use-agent = "computer_use_agent.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/lionelsimai/computer-use-agent"
+Repository = "https://github.com/lionelsimai/computer-use-agent"
+Issues = "https://github.com/lionelsimai/computer-use-agent/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
