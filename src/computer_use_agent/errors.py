@@ -18,3 +18,7 @@ class TakeoverRequiredError(ComputerUseError):
 
 class ActionFailedError(ComputerUseError):
     """Raised when an action cannot be completed."""
+
+
+class PlanningError(ComputerUseError):
+    """Raised when a task cannot be planned without inventing details."""

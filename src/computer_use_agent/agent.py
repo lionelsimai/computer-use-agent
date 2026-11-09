@@ -7,7 +7,7 @@ from pathlib import Path
 
 from computer_use_agent.actions import StepResult
 from computer_use_agent.browser import LocalBrowser
-from computer_use_agent.errors import TakeoverRequiredError
+from computer_use_agent.errors import PlanningError, TakeoverRequiredError
 from computer_use_agent.planner import Planner
 from computer_use_agent.takeover import TakeoverDetector
 from computer_use_agent.tracker import SuccessTracker, TaskRecord
@@ -23,6 +23,7 @@ class AgentOutcome:
     takeover_reason: str = ""
     steps: list[StepResult] = field(default_factory=list)
     extracted: str = ""
+    error: str = ""
 
 
 class ComputerUseAgent:
@@ -40,7 +41,13 @@ class ComputerUseAgent:
         steps: list[StepResult] = []
         extracted = ""
         try:
-            for action in self.planner.plan(task):
+            plan = self.planner.plan(task)
+        except PlanningError as exc:
+            # Unplannable without inventing details: an honest failure.
+            self.tracker.record(TaskRecord(task, False, steps=0))
+            return AgentOutcome(task, False, steps=[], error=str(exc))
+        try:
+            for action in plan:
                 result = self.browser.execute(action)
                 steps.append(result)
                 if result.extracted:

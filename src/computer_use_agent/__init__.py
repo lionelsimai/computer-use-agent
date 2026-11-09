@@ -1,4 +1,4 @@
-"""Computer-Use Agent — browser agent with human takeover."""
+"""Computer-Use Agent — offline fixture-site agent core with human takeover."""
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __all__ = ["__version__"]
